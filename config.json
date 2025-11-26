@@ -7,6 +7,6 @@
 		"start month": 11,
 		"end year": 2013,
 		"end month": 7,
-		"download path": "D:\\data"
+		"download path": "./data/"
 	}
 }

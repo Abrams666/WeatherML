@@ -35,7 +35,7 @@ end = int(endYear) * 12 + int(endMonth)
 print("Creating new CSV file...")
 dataColumns = ["StnPres","SeaPres","StnPresMax","StnPresMin","Temperature","T Max","T Min","Td dew point","RH","RHMin","WS","WD","WSGust","WDGust","Precp","PrecpHour","PrecpMax10","PrecpMax60","SunShine","SunshineRate","GloblRad","VisbMean","EvapA","UVI Max","Cloud Amount","TxSoil0cm","TxSoil5cm","TxSoil10cm","TxSoil20cm","TxSoil30cm","TxSoil50cm","TxSoil100cm"]
 dataColumnsChinese = ["測站氣壓(hPa)","海平面氣壓(hPa)","測站最高氣壓(hPa)","測站最低氣壓(hPa)","氣溫(℃)","最高氣溫(℃)","最低氣溫(℃)","露點溫度(℃)","相對溼度(%)","最小相對溼度(%)","風速(m/s)","風向(360degree)","最大瞬間風(m/s)","最大瞬間風風向(360degree)","降水量(mm)","降水時數(hour)","最大十分鐘降水量(mm)","最大六十分鐘降水量(mm)","日照時數(hour)","日照率(%)","全天空日射量(MJ/㎡)","能見度(km)","A型蒸發量(mm)","日最高紫外線指數","總雲量(0~10)","地溫0cm","地溫5cm","地溫10cm","地溫20cm","地溫30cm","地溫50cm","地溫100cm"]
-data = {"ID": [],"StnPres": [],"SeaPres": [],"StnPresMax": [],"StnPresMin": [],"Temperature": [],"T Max": [],"T Min": [],"Td dew point": [],"RH": [],"RHMin": [],"WS": [],"WD": [],"WSGust": [],"WDGust": [],"Precp": [],"PrecpHour": [],"PrecpMax10": [],"PrecpMax60": [],"SunShine": [],"SunshineRate": [],"GloblRad": [],"VisbMean": [],"EvapA": [],"UVI Max": [],"Cloud Amount": [],"TxSoil0cm": [],"TxSoil5cm": [],"TxSoil10cm": [],"TxSoil20cm": [],"TxSoil30cm": [],"TxSoil50cm": [],"TxSoil100cm": []}
+data = {"StnPres": [],"SeaPres": [],"StnPresMax": [],"StnPresMin": [],"Temperature": [],"T Max": [],"T Min": [],"Td dew point": [],"RH": [],"RHMin": [],"WS": [],"WD": [],"WSGust": [],"WDGust": [],"PrecpHour": [],"PrecpMax10": [],"PrecpMax60": [],"SunShine": [],"SunshineRate": [],"GloblRad": [],"VisbMean": [],"EvapA": [],"UVI Max": [],"Cloud Amount": [],"TxSoil0cm": [],"TxSoil5cm": [],"TxSoil10cm": [],"TxSoil20cm": [],"TxSoil30cm": [],"TxSoil50cm": [],"TxSoil100cm": [],"Precp": []}
 
 #read csv files and combine
 print("Combining CSV files...")
@@ -60,7 +60,7 @@ for i in range(end, start + 1):
                 break
 
         if(isAllNum):
-            data["ID"].append(id)
+            #data["ID"].append(id)
             id += 1
             for j in range(len(dataColumns)):
                 data[dataColumns[j]].append(row[dataColumnsChinese[j]])
