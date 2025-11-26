@@ -7,8 +7,9 @@
 const int row = 3812;
 const int col = 32;
 const int maxTrainTime = 100000-1;
-const float learnRate = 0.00000000001;
+const float learnRate = 0.0001;
 const float testSetRatio = 0.2;
+const char dataPath[100] = "../../data/data467050_std.csv";
 
 //value
 const int testSetNum = row * testSetRatio;
@@ -55,7 +56,7 @@ int main() {
 	//read file
 	FILE* dataFile;
 
-	if ((dataFile = fopen("../../data/data467050.csv", "r")) == NULL) {
+	if ((dataFile = fopen(dataPath, "r")) == NULL) {
 		printf("File could not be opened\n");
 		return 0;
 	}
