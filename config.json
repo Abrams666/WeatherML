@@ -7,6 +7,7 @@
 		"start month": 11,
 		"end year": 2013,
 		"end month": 7,
-		"download path": "./data/"
+		"download path": "./data/",
+		"test set ratio": 0.2
 	}
 }
