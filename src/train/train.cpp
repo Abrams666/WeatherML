@@ -6,10 +6,11 @@
 //config
 const int row = 3812;
 const int col = 32;
-const int maxTrainTime = 100000-1;
-const float learnRate = 0.0001;
+const int maxTrainTime = 1000000;
+const float learnRate = 0.00001;
 const float testSetRatio = 0.2;
 const char dataPath[100] = "../../data/data467050_std.csv";
+const char weightPath[100] = "../../data/weight.csv";
 
 //value
 const int testSetNum = row * testSetRatio;
@@ -36,7 +37,7 @@ double cost(double *w, float **x, int setNum){
 	return totalCost;
 }
 
-double gradient(double *w, float *x, float *x2, int idx){
+double PartialDerivative(double *w, float *x, float *x2, int idx){
 	return 2 * (dot(w, x, col) - x2[col-1]) * x[idx];
 }
 
@@ -123,8 +124,8 @@ int main() {
 	double* weight = (double*)malloc(col * sizeof(double));
 	double* bestWeight = (double*)malloc(col * sizeof(double));
 	for (int i = 0; i < col; i++) {
-		weight[i] = 0.01;
-		bestWeight[i] = 0.0001;
+		weight[i] = 1;
+		bestWeight[i] = 1;
 	}
 
 	while (bestCost > 1000 && count < maxTrainTime) {
@@ -158,7 +159,7 @@ int main() {
 
 
 			for (int j = 0; j < col; j++) {
-				weight[j] -= learnRate * gradient(weight, trainSet[i],trainSet[i+1], j);
+				weight[j] -= learnRate * PartialDerivative(weight, trainSet[i],trainSet[i+1], j);
 				//printf("Index:%5d, gradient:%10f\n", j, gradient(weight, trainSet[i], trainSet[i + 1], j));
 			}
 		}
@@ -166,13 +167,19 @@ int main() {
 
 	printf("----------\nCurrent Best Weight\n");
 	printf("Lowest cost:%10f\n", bestCost);
-	bestCost = currentCost;
+
+	FILE* weightFile;
+	weightFile = fopen(weightPath, "w");
+	fprintf(weightFile, "StnPres,SeaPres,StnPresMax,StnPresMin,Temperature,T Max,T Min,Td dew point,RH,RHMin,WS,WD,WSGust,WDGust,PrecpHour,PrecpMax10,PrecpMax60,SunShine,SunshineRate,GloblRad,VisbMean,EvapA,UVI Max,Cloud Amount,TxSoil0cm,TxSoil5cm,TxSoil10cm,TxSoil20cm,TxSoil30cm,TxSoil50cm,TxSoil100cm,Precp,\n");
+
 	for (int k = 0; k < col; k++) {
 		printf("%f,", weight[k]);
+		fprintf(weightFile, "%f,", weight[k]);
 	}
 	printf("\n----------\n");
 
 	//end
+	fclose(weightFile);
 	return 0;
 	system("PAUSE");
 }

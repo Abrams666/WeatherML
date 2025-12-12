@@ -1,5 +1,5 @@
 ﻿  train.cpp
 D:\School\#課程\計算機概論\專題\程式\src\train\train.cpp(10,25): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
 D:\School\#課程\計算機概論\專題\程式\src\train\train.cpp(11,28): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\School\#課程\計算機概論\專題\程式\src\train\train.cpp(15,28): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\School\#課程\計算機概論\專題\程式\src\train\train.cpp(16,28): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
   train.vcxproj -> D:\School\#課程\計算機概論\專題\程式\src\train\x64\Debug\train.exe
