@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 configFile = json.load(open("./config.json", 'r', encoding='utf-8'))
 readAndSavePath = configFile["getData"]["download path"]
 stationNumber = configFile["getData"]["station number"]
-verifySetRatio = 0.02
+verifySetStart = 0.9
+verifySetEnd = 0.95
 
 #val
 dataColumns = ["StnPres","SeaPres","StnPresMax","StnPresMin","Temperature","T Max","T Min","Td dew point","RH","RHMin","WS","WD","WSGust","WDGust","PrecpHour","PrecpMax10","PrecpMax60","SunShine","SunshineRate","GloblRad","VisbMean","EvapA","UVI Max","Cloud Amount","TxSoil0cm","TxSoil5cm","TxSoil10cm","TxSoil20cm","TxSoil30cm","TxSoil50cm","TxSoil100cm"]
@@ -78,14 +79,12 @@ for index, row in rainDataFile.iterrows():
 rainDataMean = mean(rainData)
 rainDataSd = sd(rainData)
 
-#get real y
-testSetNum = math.ceil(dataNum*verifySetRatio)
+#get real y ypred
+testSetStartIdx = math.ceil(dataNum*verifySetStart)
+testSetEndIdx = math.floor(dataNum*verifySetEnd)
 
-for i in range(dataNum-testSetNum, dataNum):
+for i in range(testSetStartIdx, testSetEndIdx):
     plotDataY.append(rainData[i])
-
-#get pred y
-for i in range(dataNum-testSetNum, dataNum):
     plotDataYPred.append((dot(weight, dataStd[i])*rainDataSd)+rainDataMean)
 
 #draw
