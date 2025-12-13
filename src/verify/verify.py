@@ -89,10 +89,12 @@ for i in range(dataNum-testSetNum, dataNum):
     plotDataYPred.append((dot(weight, dataStd[i])*rainDataSd)+rainDataMean)
 
 #draw
-plt.plot(plotDataY, color="blue")
-plt.plot(plotDataYPred, color = "red") 
+plt.plot(plotDataY, color="blue", label="Real Rain Data")
+plt.plot(plotDataYPred, color = "red", label="Predict Rain Data") 
 plt.xlabel("Time(Day)")
-plt.ylabel("Precp")
+plt.ylabel("Precp(mm)")
 
+plt.legend()
+plt.savefig("verify.png") 
 plt.show()
 
