@@ -191,7 +191,7 @@ int main() {
 
 	FILE* weightFile;
 	weightFile = fopen(weightPath, "w");
-	fprintf(weightFile, "StnPres,SeaPres,StnPresMax,StnPresMin,Temperature,T Max,T Min,Td dew point,RH,RHMin,WS,WD,WSGust,WDGust,PrecpHour,PrecpMax10,PrecpMax60,SunShine,SunshineRate,GloblRad,VisbMean,EvapA,UVI Max,Cloud Amount,TxSoil0cm,TxSoil5cm,TxSoil10cm,TxSoil20cm,TxSoil30cm,TxSoil50cm,TxSoil100cm,Precp,\n");
+	fprintf(weightFile, "StnPres,SeaPres,StnPresMax,StnPresMin,Temperature,T Max,T Min,Td dew point,RH,RHMin,WS,WD,WSGust,WDGust,PrecpHour,PrecpMax10,PrecpMax60,SunShine,SunshineRate,GloblRad,VisbMean,EvapA,UVI Max,Cloud Amount,TxSoil0cm,TxSoil5cm,TxSoil10cm,TxSoil20cm,TxSoil30cm,TxSoil50cm,TxSoil100cm,\n");
 
 	for (int k = 0; k < col; k++) {
 		printf("%f,", weight[k]);

@@ -120,6 +120,8 @@ splitIndex = int(len(rainDataFile) * (1 - testSetRatio))
 trainSetRainDataFile = rainDataFile.iloc[:splitIndex]
 testSetRainDataFile  = rainDataFile.iloc[splitIndex:]
 
+dataFile.to_csv(readAndSavePath + "/"+"dataFile" + str(stationNumber) + ".csv", index=False, encoding="utf-8-sig")
+rainDataFile.to_csv(readAndSavePath + "/"+"rainDataFile" + str(stationNumber) + ".csv", index=False, encoding="utf-8-sig")
 trainSetDataFile.to_csv(readAndSavePath + "/"+"trainSetDataFile" + str(stationNumber) + ".csv", index=False, encoding="utf-8-sig")
 testSetDataFile.to_csv(readAndSavePath + "/"+"testSetDataFile" + str(stationNumber) + ".csv", index=False, encoding="utf-8-sig")
 trainSetRainDataFile.to_csv(readAndSavePath + "/"+"trainSetRainDataFile" + str(stationNumber) + ".csv", index=False, encoding="utf-8-sig")
@@ -150,6 +152,8 @@ splitIndex = int(len(rainDataFile) * (1 - testSetRatio))
 trainSetRainDataFile = rainDataFile.iloc[:splitIndex]
 testSetRainDataFile  = rainDataFile.iloc[splitIndex:]
 
+dataFile.to_csv(readAndSavePath + "/"+"dataFile" + str(stationNumber) + "_std.csv", index=False, encoding="utf-8-sig")
+rainDataFile.to_csv(readAndSavePath + "/"+"rainDataFile" + str(stationNumber) + "_std.csv", index=False, encoding="utf-8-sig")
 trainSetDataFile.to_csv(readAndSavePath + "/"+"trainSetDataFile" + str(stationNumber) + "_std.csv", index=False, encoding="utf-8-sig")
 testSetDataFile.to_csv(readAndSavePath + "/"+"testSetDataFile" + str(stationNumber) + "_std.csv", index=False, encoding="utf-8-sig")
 trainSetRainDataFile.to_csv(readAndSavePath + "/"+"trainSetRainDataFile" + str(stationNumber) + "_std.csv", index=False, encoding="utf-8-sig")

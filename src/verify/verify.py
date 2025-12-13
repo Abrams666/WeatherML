@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 configFile = json.load(open("./config.json", 'r', encoding='utf-8'))
 readAndSavePath = configFile["getData"]["download path"]
 stationNumber = configFile["getData"]["station number"]
-testSetRatio = 0.05
+verifySetRatio = 0.02
 
 #val
-dataColumns = ["StnPres","SeaPres","StnPresMax","StnPresMin","Temperature","T Max","T Min","Td dew point","RH","RHMin","WS","WD","WSGust","WDGust","Precp","PrecpHour","PrecpMax10","PrecpMax60","SunShine","SunshineRate","GloblRad","VisbMean","EvapA","UVI Max","Cloud Amount","TxSoil0cm","TxSoil5cm","TxSoil10cm","TxSoil20cm","TxSoil30cm","TxSoil50cm","TxSoil100cm"]
+dataColumns = ["StnPres","SeaPres","StnPresMax","StnPresMin","Temperature","T Max","T Min","Td dew point","RH","RHMin","WS","WD","WSGust","WDGust","PrecpHour","PrecpMax10","PrecpMax60","SunShine","SunshineRate","GloblRad","VisbMean","EvapA","UVI Max","Cloud Amount","TxSoil0cm","TxSoil5cm","TxSoil10cm","TxSoil20cm","TxSoil30cm","TxSoil50cm","TxSoil100cm"]
 dataNum = 0
 plotDataY = []
 plotDataYPred = []
@@ -53,50 +53,40 @@ for i in dataColumns:
     weight.append(float(weightFile[i][0]))
 
 #read data
-data = []
+dataStd = []
 rainData = []
 
-fileName = "data"+ str(stationNumber) + ".csv"
-filePath = readAndSavePath + "/" + fileName
-dataFile = pd.read_csv(filePath, encoding="utf-8-sig")
+stdFileName = "dataFile"+ str(stationNumber) + "_std.csv"
+stdFilePath = readAndSavePath + "/" + stdFileName
+stdDataFile = pd.read_csv(stdFilePath, encoding="utf-8-sig")
 
-for index, row in dataFile.iterrows():
+for index, row in stdDataFile.iterrows():
     tempData = []
     for i in dataColumns:
         tempData.append(float(row[i]))
     dataNum += 1
-    data.append(tempData)
-    rainData.append(tempData[31])
-
-#read std data
-dataStd = []
-
-fileName = "data"+ str(stationNumber) + "_std.csv"
-filePath = readAndSavePath + "/" + fileName
-dataFile = pd.read_csv(filePath, encoding="utf-8-sig")
-
-for index, row in dataFile.iterrows():
-    tempData = []
-    for i in dataColumns:
-        tempData.append(float(row[i]))
-    
     dataStd.append(tempData)
+
+rainFileName = "rainDataFile"+ str(stationNumber) + "_std.csv"
+rainFilePath = readAndSavePath + "/" + rainFileName
+rainDataFile = pd.read_csv(rainFilePath, encoding="utf-8-sig")
+
+for index, row in rainDataFile.iterrows():
+    rainData.append(float(row["Precp"]))
 
 #get mean std
 rainDataMean = mean(rainData)
-rainDataSd = sd(tempData)
-
-print(rainDataMean, rainDataSd)
+rainDataSd = sd(rainData)
 
 #get real y
-testSetNum = math.ceil(dataNum*testSetRatio)
+testSetNum = math.ceil(dataNum*verifySetRatio)
 
-for i in range(dataNum-testSetNum+1, dataNum):
+for i in range(dataNum-testSetNum, dataNum):
     plotDataY.append(rainData[i])
 
 #get pred y
-for i in range(dataNum-testSetNum, dataNum-1):
-    plotDataYPred.append((dot(weight, data[i])*rainDataSd)+rainDataMean+185)
+for i in range(dataNum-testSetNum, dataNum):
+    plotDataYPred.append((dot(weight, dataStd[i])*rainDataSd)+rainDataMean)
 
 #draw
 plt.plot(plotDataY, color="blue")
