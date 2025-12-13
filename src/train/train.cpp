@@ -170,12 +170,12 @@ int main() {
 			}
 			else {
 				if (currentCost < bestCost) {
-					printf("----------\nBest Weight Updated\n");
+					printf("\nBest Weight Updated\n");
 					bestCost = currentCost;
 					for (int j = 0; j < col; j++) {
 						bestWeight[j] = weight[j];
 					}
-					printf("\n----------\n");
+					printf("----------\n");
 				}
 			}
 
