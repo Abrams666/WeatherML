@@ -95,6 +95,6 @@ plt.xlabel("Time(Day)")
 plt.ylabel("Precp(mm)")
 
 plt.legend()
-plt.savefig("verify.png") 
+plt.savefig("./src/verify/verify.png") 
 plt.show()
 
