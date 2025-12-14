@@ -1,7 +1,7 @@
 {
-    "station_number": 1,
-    "start_time": "08:00",
-    "end_time": "18:00",
-    "interval_minutes": 60,
-    "data_path": "./data"
+	"station_number": 1,
+	"start_time": "08:00",
+	"end_time": "18:00",
+	"interval_minutes": 60,
+	"data_path": "./data"
 }
