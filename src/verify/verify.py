@@ -68,7 +68,7 @@ for index, row in stdDataFile.iterrows():
     dataNum += 1
     dataStd.append(tempData)
 
-rainFileName = "rainDataFile"+ str(stationNumber) + "_std.csv"
+rainFileName = "rainDataFile"+ str(stationNumber) + ".csv"
 rainFilePath = readAndSavePath + "/" + rainFileName
 rainDataFile = pd.read_csv(rainFilePath, encoding="utf-8-sig")
 
@@ -88,6 +88,7 @@ for i in range(testSetStartIdx, testSetEndIdx):
     plotDataYPred.append((dot(weight, dataStd[i])*rainDataSd)+rainDataMean)
 
 #draw
+print(plotDataY)
 plt.plot(plotDataY, color="blue", label="Real Rain Data")
 plt.plot(plotDataYPred, color = "red", label="Predict Rain Data") 
 plt.xlabel("Time(Day)")
