@@ -1,13 +1,7 @@
 {
-	"getData": {
-		"station number": "467050",
-		"year of today": "auto",
-		"month of today": "auto",
-		"start year": 2025,
-		"start month": 11,
-		"end year": 2013,
-		"end month": 7,
-		"download path": "./data/",
-		"test set ratio": 0.2
-	}
+    "station_number": 1,
+    "start_time": "08:00",
+    "end_time": "18:00",
+    "interval_minutes": 60,
+    "data_path": "./data"
 }

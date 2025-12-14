@@ -165,7 +165,7 @@ def run_training(config_text):
     except Exception as e:
         return f"❌ Error: {str(e)}"
 
-def run_full_pipeline(station_num, start_year, start_month, end_year, end_month, download_path, test_ratio, train_config, skip_data_collection):
+def run_full_pipeline(station_num, start_year, start_month, end_year, end_month, download_path, test_ratio, train_config):
     outputs = []
     
     # Step 1: Save config
@@ -173,39 +173,25 @@ def run_full_pipeline(station_num, start_year, start_month, end_year, end_month,
     save_result = save_config(station_num, start_year, start_month, end_year, end_month, download_path, test_ratio)
     outputs.append(save_result)
     
-    # Step 2: Get data (optional)
-    if not skip_data_collection:
-        outputs.append("\n📊 Step 2: Collecting data...")
-        data_result = run_get_data()
-        outputs.append(data_result)
-        if "❌" in data_result:
-            outputs.append("\n⚠️ Data collection failed. Continuing with existing data if available...")
-    else:
-        outputs.append("\n⏭️ Step 2: Skipping data collection (using existing data)")
+    # Step 2: Get data
+    outputs.append("\n📊 Step 2: Collecting data...")
+    data_result = run_get_data()
+    outputs.append(data_result)
     
     # Step 3: Combine CSV
     outputs.append("\n🔗 Step 3: Combining CSV files...")
     combine_result = run_combine_csv()
     outputs.append(combine_result)
-    if "❌" in combine_result:
-        outputs.append("\n❌ Pipeline stopped: CSV combination failed")
-        return "\n".join(outputs)
     
     # Step 4: Standardize
     outputs.append("\n📐 Step 4: Standardizing data...")
     std_result = run_standardize()
     outputs.append(std_result)
-    if "❌" in std_result:
-        outputs.append("\n❌ Pipeline stopped: Standardization failed")
-        return "\n".join(outputs)
     
     # Step 5: Train
-    if train_config.strip():
-        outputs.append("\n🎯 Step 5: Training model...")
-        train_result = run_training(train_config)
-        outputs.append(train_result)
-    else:
-        outputs.append("\n⏭️ Step 5: Skipping training (no configuration provided)")
+    outputs.append("\n🎯 Step 5: Training model...")
+    train_result = run_training(train_config)
+    outputs.append(train_result)
     
     outputs.append("\n🎉 Full pipeline completed!")
     return "\n".join(outputs)
@@ -339,12 +325,6 @@ with gr.Blocks(theme=gr.themes.Soft(), title="Data Pipeline Manager") as demo:
                 
                 pipeline_path = gr.Textbox(label="Download Path", value=config.get("getData", {}).get("download path", "./data"))
                 pipeline_test_ratio = gr.Number(label="Test Set Ratio", value=config.get("getData", {}).get("test set ratio", 0.2), minimum=0, maximum=1, step=0.05)
-                
-                skip_data_collection = gr.Checkbox(
-                    label="Skip Data Collection (use existing CSV files)",
-                    value=False,
-                    info="Check this if you already have the raw CSV files downloaded"
-                )
                 pipeline_train_config = gr.Textbox(
                     label="Training Configuration",
                     lines=6,
@@ -356,7 +336,7 @@ with gr.Blocks(theme=gr.themes.Soft(), title="Data Pipeline Manager") as demo:
             
             run_pipeline_btn.click(
                 run_full_pipeline,
-                inputs=[pipeline_station, pipeline_start_year, pipeline_start_month, pipeline_end_year, pipeline_end_month, pipeline_path, pipeline_test_ratio, pipeline_train_config, skip_data_collection],
+                inputs=[pipeline_station, pipeline_start_year, pipeline_start_month, pipeline_end_year, pipeline_end_month, pipeline_path, pipeline_test_ratio, pipeline_train_config],
                 outputs=pipeline_output
             )
         
