@@ -54,7 +54,7 @@ data = {"StnPres": [],"SeaPres": [],"StnPresMax": [],"StnPresMin": [],"Temperatu
 
 #read csv files and combine
 print("Loading data file...")
-fileName = "data"+ str(stationNumber) + ".csv"
+fileName = "dataFile"+ str(stationNumber) + ".csv"
 filePath = readAndSavePath + "/" + fileName
 
 df = pd.read_csv(filePath, encoding="utf-8-sig")
