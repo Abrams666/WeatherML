@@ -32,7 +32,7 @@ double cost(double *w, float **x, float *y, int setNum){
 	double totalCost = 0;
 
 	for (int i = 0; i < setNum - 1; i++) {
-		totalCost += (dot(w, x[i], col) - y[i]) * (dot(w, x[i], col) - y[i]);
+		totalCost += (dot(w, x[i], col) + w[col] - y[i]) * (dot(w, x[i], col) + w[col] - y[i]);
 	}
 
 	return totalCost;
@@ -146,9 +146,9 @@ int main() {
 	double bestCost = 1001;
 	double currentCost = 1001;
 	int count = 0;
-	double* weight = (double*)malloc(col * sizeof(double));
-	double* bestWeight = (double*)malloc(col * sizeof(double));
-	for (int i = 0; i < col; i++) {
+	double* weight = (double*)malloc((col + 1) * sizeof(double));
+	double* bestWeight = (double*)malloc((col + 1) * sizeof(double));
+	for (int i = 0; i < (col+1); i++) {
 		weight[i] = 1;
 		bestWeight[i] = 1;
 	}
@@ -164,7 +164,7 @@ int main() {
 			}
 			if (count == 1) {
 				bestCost = currentCost;
-				for (int j = 0; j < col; j++) {
+				for (int j = 0; j < (col+1); j++) {
 					bestWeight[j] = weight[j];
 				}
 			}
@@ -172,7 +172,7 @@ int main() {
 				if (currentCost < bestCost) {
 					printf("Best Weight Updated\n");
 					bestCost = currentCost;
-					for (int j = 0; j < col; j++) {
+					for (int j = 0; j < (col+1); j++) {
 						bestWeight[j] = weight[j];
 					}
 					printf("----------\n");
@@ -183,6 +183,7 @@ int main() {
 			for (int j = 0; j < col; j++) {
 				weight[j] -= learnRate * PartialDerivative(weight, trainSet[i], trainSetRain[i], j);
 			}
+			weight[col] -= learnRate * 2 * (dot(weight, trainSet[i], col) + weight[col] - trainSetRain[i]);
 		}
 	}
 
@@ -191,9 +192,9 @@ int main() {
 
 	FILE* weightFile;
 	weightFile = fopen(weightPath, "w");
-	fprintf(weightFile, "StnPres,SeaPres,StnPresMax,StnPresMin,Temperature,T Max,T Min,Td dew point,RH,RHMin,WS,WD,WSGust,WDGust,PrecpHour,PrecpMax10,PrecpMax60,SunShine,SunshineRate,GloblRad,VisbMean,EvapA,UVI Max,Cloud Amount,TxSoil0cm,TxSoil5cm,TxSoil10cm,TxSoil20cm,TxSoil30cm,TxSoil50cm,TxSoil100cm,\n");
+	fprintf(weightFile, "StnPres,SeaPres,StnPresMax,StnPresMin,Temperature,T Max,T Min,Td dew point,RH,RHMin,WS,WD,WSGust,WDGust,PrecpHour,PrecpMax10,PrecpMax60,SunShine,SunshineRate,GloblRad,VisbMean,EvapA,UVI Max,Cloud Amount,TxSoil0cm,TxSoil5cm,TxSoil10cm,TxSoil20cm,TxSoil30cm,TxSoil50cm,TxSoil100cm,b,\n");
 
-	for (int k = 0; k < col; k++) {
+	for (int k = 0; k < (col+1); k++) {
 		printf("%f,", weight[k]);
 		fprintf(weightFile, "%f,", weight[k]);
 	}

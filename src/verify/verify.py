@@ -12,6 +12,7 @@ verifySetStart = 0.9
 verifySetEnd = 0.95
 
 #val
+weightColumns = ["StnPres","SeaPres","StnPresMax","StnPresMin","Temperature","T Max","T Min","Td dew point","RH","RHMin","WS","WD","WSGust","WDGust","PrecpHour","PrecpMax10","PrecpMax60","SunShine","SunshineRate","GloblRad","VisbMean","EvapA","UVI Max","Cloud Amount","TxSoil0cm","TxSoil5cm","TxSoil10cm","TxSoil20cm","TxSoil30cm","TxSoil50cm","TxSoil100cm", "b"]
 dataColumns = ["StnPres","SeaPres","StnPresMax","StnPresMin","Temperature","T Max","T Min","Td dew point","RH","RHMin","WS","WD","WSGust","WDGust","PrecpHour","PrecpMax10","PrecpMax60","SunShine","SunshineRate","GloblRad","VisbMean","EvapA","UVI Max","Cloud Amount","TxSoil0cm","TxSoil5cm","TxSoil10cm","TxSoil20cm","TxSoil30cm","TxSoil50cm","TxSoil100cm"]
 dataNum = 0
 plotDataY = []
@@ -21,7 +22,7 @@ plotDataYPred = []
 def dot(a,b):
     res = 0
 
-    for i in range(len(a)):
+    for i in range(len(b)):
         res += a[i]*b[i]
 
     return res
@@ -50,7 +51,7 @@ fileName = "weight.csv"
 filePath = readAndSavePath + "/" + fileName
 weightFile = pd.read_csv(filePath, encoding="utf-8-sig")
 
-for i in dataColumns:
+for i in weightColumns:
     weight.append(float(weightFile[i][0]))
 
 #read data
@@ -85,7 +86,7 @@ testSetEndIdx = math.floor(dataNum*verifySetEnd)
 
 for i in range(testSetStartIdx, testSetEndIdx):
     plotDataY.append(rainData[i])
-    plotDataYPred.append((dot(weight, dataStd[i])*rainDataSd)+rainDataMean)
+    plotDataYPred.append(((dot(weight, dataStd[i])+weight[-1])*rainDataSd)+rainDataMean)
 
 #draw
 print(plotDataY)
